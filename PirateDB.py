@@ -28,6 +28,10 @@ class FileManger:
         f=open(self.path,"w")
         json.dump(d,f)
         f.close()
+
+def addNew():
+    x=0
+
 root=Tk()
 root.title("Pirate Database")
 root.config(bg="pink")
@@ -51,14 +55,14 @@ realtk=Label(root,text="Real:", font="Arial 20",bg="pink")
 realtk.grid(row=3,column=0,columnspan=1)
 
 optionString=StringVar(root)
-optionString.set("True")
-dropdown=OptionMenu(root,optionString,"True","False")
-dropdown.config(font="Arial 20",width="10")
+optionString.set(" ")
+dropdown=OptionMenu(root,optionString," ","True","False")
+dropdown.config(font="Arial 20",width="17")
 dropdown.nametowidget(dropdown.menuname).config(font="Arial 20")
 dropdown.grid(row=3,column=2)
 
 
-save=Button(root,text="SAVE",font="Arial 20 bold",bg="red")
+save=Button(root,text="SAVE",font="Arial 20 bold",bg="red",command=addNew)
 save.grid(row=4,column=1,columnspan=2)
 
 root.mainloop()
