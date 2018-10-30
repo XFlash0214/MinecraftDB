@@ -1,5 +1,6 @@
 from tkinter import *
 import json
+from random import randint
 class Pirate:
     name=""
     ship=""
@@ -15,9 +16,9 @@ class Pirate:
         self.name=d["name"]
         self.ship=d["ship"]
         self.real=d["real"]
-class FileManger:
+class FileManager:
     path="PirateDB.json"
-    def wtf(self, idnum, obj):
+    def wrotetofile(self, idnum, obj):
         try:
             f=open(self.path,"r")
             d=json.load(f)
@@ -30,34 +31,45 @@ class FileManger:
         f.close()
 
 def addNew():
-    x=0
+    p=Pirate()
+    p.name=namebox.get()
+    p.ship=shipbox.get()
+    p.real=optionString.get()
 
+    namebox.delete(0,"end")
+    shipbox.delete(0,"end")
+
+    d=p.getDict()
+    fm=FileManager()
+    idNum=randint(11111,99999)
+    fm.wrotetofile(idNum,d)
+    
 root=Tk()
 root.title("Pirate Database")
-root.config(bg="pink")
+root.config(bg="blue")
 
-title=Label(root,text="Pirate Database", font="Arial 30 bold",bg="pink")
+title=Label(root,text="Pirate Database", font="Arial 30 bold",bg="blue")
 title.grid(row=0,column=0,columnspan=3)
 
-nametk=Label(root,text="Name:", font="Arial 20",bg="pink")
+nametk=Label(root,text="Name:", font="Arial 20",bg="blue")
 nametk.grid(row=1,column=0,columnspan=1)
 
-namebox=Entry(root, font="Arial 20")
+namebox=Entry(root, font="Arial 20",bg="blue")
 namebox.grid(row=1,column=2)
 
-shiptk=Label(root,text="Ship:", font="Arial 20",bg="pink")
+shiptk=Label(root,text="Ship:", font="Arial 20",bg="blue")
 shiptk.grid(row=2,column=0,columnspan=1)
 
-shipbox=Entry(root, font="Arial 20")
+shipbox=Entry(root, font="Arial 20",bg="blue")
 shipbox.grid(row=2,column=2)
 
-realtk=Label(root,text="Real:", font="Arial 20",bg="pink")
+realtk=Label(root,text="Real:", font="Arial 20",bg="blue")
 realtk.grid(row=3,column=0,columnspan=1)
 
 optionString=StringVar(root)
 optionString.set(" ")
 dropdown=OptionMenu(root,optionString," ","True","False")
-dropdown.config(font="Arial 20",width="17")
+dropdown.config(font="Arial 20",width="17",bg="blue")
 dropdown.nametowidget(dropdown.menuname).config(font="Arial 20")
 dropdown.grid(row=3,column=2)
 
