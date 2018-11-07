@@ -1,3 +1,4 @@
+from firebase import firebase as fb
 from tkinter import *
 import json
 from random import randint
@@ -16,19 +17,10 @@ class Pirate:
         self.name=d["name"]
         self.ship=d["ship"]
         self.real=d["real"]
-class FileManager:
-    path="PirateDB.json"
+class FirebaseManager:
+    app=fb.FirebaseApplication("https://piratedb-0214.firebaseio.com/")
     def wrotetofile(self, idnum, obj):
-        try:
-            f=open(self.path,"r")
-            d=json.load(f)
-            f.close()
-        except:
-            d={}
-        d[idnum]=obj
-        f=open(self.path,"w")
-        json.dump(d,f)
-        f.close()
+        result=self.app.put("",idnum,obj)
 
 def addNew():
     p=Pirate()
@@ -40,7 +32,7 @@ def addNew():
     shipbox.delete(0,"end")
 
     d=p.getDict()
-    fm=FileManager()
+    fm=FirebaseManager()
     idNum=randint(11111,99999)
     fm.wrotetofile(idNum,d)
     
