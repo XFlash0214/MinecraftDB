@@ -1,4 +1,5 @@
 from tkinter import *
+import firebase_manager
 
 window1=Tk()
 window1.title("Minecraft Database")
@@ -13,11 +14,20 @@ label1.pack()
 frame2=Frame(window1,padx=40,bg="green")
 frame2.grid(row=0,column=1)
 
-entry1=Entry(frame2,font="Arial 20")
+entry1=Entry(frame2,font="Arial 20",bg="brown")
+def supdate(e):
+    sfilter()
+
+entry1.bind("<KeyRelease>", supdate)
 entry1.grid(row=0,column=0)
 
-gobut=Button(frame2,bg="green",text="Search",font="Arial 15")
-gobut.grid(row=0,column=1)
+def sfilter():
+    filt=entry1.get()
+    listbox.delete(0,"end")
+    for pirate in d:
+        if (filt.lower() in d[pirate]["name"].lower() or
+        filt.lower() in d[pirate]["ship"].lower()):
+            listbox.insert(END,d[pirate]["name"])
 
 frame3=Frame(window1,bg="green")
 frame3.grid(row=1,column=0)
@@ -48,11 +58,13 @@ frame4=Frame(window1)
 frame4.grid(row=1,column=1)
 frame4.config(bg="green")
 
-listbox=Listbox(frame4,font="Airal 25",bg="light blue")
+listbox=Listbox(frame4,font="Times 25",bg="brown",fg="green")
 listbox.pack()
-listdic={"Jerry":"1","Geri":"3","Jeri": "2","Jery":"4"}
-for item in listdic:
-    listbox.insert(END,item)
+fm=firebase_manager.FirebaseManager()
+d=fm.getallpirates()
+for item in d:
+    pirate=d[item]
+    listbox.insert(END,pirate["name"])
 
 def Listdel():
     listbox.delete(ANCHOR)
