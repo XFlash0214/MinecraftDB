@@ -32,7 +32,15 @@ def sfilter():
 frame3=Frame(window1,bg="green")
 frame3.grid(row=1,column=0)
 
-label3=Label(frame3,text="Place Holder", font="Arial 20",fg="green",bg="green")
+def display(pirateId):
+    label3.config(text=d[pirateId]["name"])
+    shiplab.config(text=d[pirateId]["ship"])
+    if d[pirateId]["real"]=="True":
+        reallab.config(text="Real")
+    else:
+        reallab.config(text="Fake")
+
+label3=Label(frame3,font="Arial 30 bold",fg="black",bg="green")
 label3.grid(row=0,column=0,columnspan=3)
 
 picImg=PhotoImage(file="profile_pic.gif")
@@ -49,16 +57,25 @@ rightb.grid(row=1,column=2)
 pic=Label(frame3,image=picImg)
 pic.grid(row=1,column=1)
 
-shiplab=Label(frame3,text="SHIP=",bg="green",font="Arial 30 bold")
+shiplab=Label(frame3,bg="green",font="Arial 30 bold")
 shiplab.grid(row=2,column=0,columnspan=3)
-reallab=Label(frame3,text="REAL=",bg="green",font="Arial 30 bold")
+reallab=Label(frame3,bg="green",font="Arial 30 bold")
 reallab.grid(row=3,column=0,columnspan=3)
 
 frame4=Frame(window1)
 frame4.grid(row=1,column=1)
 frame4.config(bg="green")
 
+def select(e):
+    w=e.widget
+    index=int(w.curselection()[0])
+    piratename=w.get(index)
+    for pirate in d:
+        if piratename.lower()==d[pirate]["name"].lower():
+            display(pirate)
+
 listbox=Listbox(frame4,font="Times 25",bg="brown",fg="green")
+listbox.bind("<<ListboxSelect>>",select)
 listbox.pack()
 fm=firebase_manager.FirebaseManager()
 d=fm.getallpirates()
