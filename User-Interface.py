@@ -40,6 +40,33 @@ def display(pirateId):
     else:
         reallab.config(text="Fake")
 
+def scrollr():
+    index=int(listbox.curselection()[0])
+    listbox.selection_clear(index)
+    if index==len(d)-1:
+        index=0
+    else:
+        index+=1
+        
+    ulistbox(index)
+
+def scrolll():
+    index=int(listbox.curselection()[0])
+    listbox.selection_clear(index)
+    if index==0:
+        index=len(d)-1
+    else:
+        index-=1
+        
+    ulistbox(index)
+
+def ulistbox(index):
+    listbox.selection_set(index)
+    piratename=listbox.get(index)
+    for pirate in d:
+        if piratename.lower()==d[pirate]["name"].lower():
+            display(pirate)
+
 label3=Label(frame3,font="Arial 30 bold",fg="black",bg="green")
 label3.grid(row=0,column=0,columnspan=3)
 
@@ -50,9 +77,9 @@ leftImg=leftImg.subsample(4)
 rightImg=PhotoImage(file="righta.gif")
 rightImg=rightImg.subsample(4)
 
-leftb=Button(frame3,image=leftImg)
+leftb=Button(frame3,image=leftImg,command=scrolll)
 leftb.grid(row=1,column=0)
-rightb=Button(frame3,image=rightImg)
+rightb=Button(frame3,image=rightImg,command=scrollr)
 rightb.grid(row=1,column=2)
 pic=Label(frame3,image=picImg)
 pic.grid(row=1,column=1)

@@ -1,4 +1,4 @@
-from firebase import firebase as fb
+import firebase_manager
 from tkinter import *
 import json
 from random import randint
