@@ -111,7 +111,18 @@ for item in d:
     listbox.insert(END,pirate["name"])
 
 def Listdel():
+    index=int(listbox.curselection()[0])
+    listbox.selection_set(index)
+    piratename=listbox.get(index)
+    for pirate in d:
+        if piratename.lower()==d[pirate]["name"].lower():
+            deletekey=pirate
+    fm.deletepirate(deletekey)
+    d.pop(deletekey)
     listbox.delete(ANCHOR)
+    sfilter()
+
+    
 delbut=Button(frame4,text="DELETE",font="Arial 20 bold",command=Listdel,bg="brown",fg="green")
 delbut.pack()
 def exit0():
