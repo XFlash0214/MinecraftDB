@@ -23,6 +23,7 @@ class FirebaseManager:
         result=self.app.put("",idnum,obj)
 
 def addNew():
+    global win,namebox,shipbox,optionString    
     p=Pirate()
     p.name=namebox.get()
     p.ship=shipbox.get()
@@ -35,38 +36,46 @@ def addNew():
     fm=FirebaseManager()
     idNum=randint(11111,99999)
     fm.wrotetofile(idNum,d)
+
+def loadwindow(root):
+    global win,namebox,shipbox,optionString
+    win=root
+    root.title("Mob Adder")
+    root.config(bg="blue")
+
+    title=Label(root,text="Minecraft Adder", font="Arial 30 bold",bg="blue")
+    title.grid(row=0,column=0,columnspan=3)
+
+    nametk=Label(root,text="Name:", font="Arial 20",bg="blue")
+    nametk.grid(row=1,column=0,columnspan=1)
+
+    namebox=Entry(root, font="Arial 20",bg="blue")
+    namebox.grid(row=1,column=2)
+
+    shiptk=Label(root,text="Ship:", font="Arial 20",bg="blue")
+    shiptk.grid(row=2,column=0,columnspan=1)
+
+    shipbox=Entry(root, font="Arial 20",bg="blue")
+    shipbox.grid(row=2,column=2)
+
+    realtk=Label(root,text="Real:", font="Arial 20",bg="blue")
+    realtk.grid(row=3,column=0,columnspan=1)
+
+    optionString=StringVar(root)
+    optionString.set(" ")
+    dropdown=OptionMenu(root,optionString," ","True","False")
+    dropdown.config(font="Arial 20",width="17",bg="blue")
+    dropdown.nametowidget(dropdown.menuname).config(font="Arial 20")
+    dropdown.grid(row=3,column=2)
+
+
+    save=Button(root,text="SAVE",font="Arial 20 bold",bg="red",command=addNew)
+    save.grid(row=5,column=1,columnspan=2)
+
+    def cancelcom():
+        root.destroy()
     
-root=Tk()
-root.title("Pirate Database")
-root.config(bg="blue")
-
-title=Label(root,text="Pirate Database", font="Arial 30 bold",bg="blue")
-title.grid(row=0,column=0,columnspan=3)
-
-nametk=Label(root,text="Name:", font="Arial 20",bg="blue")
-nametk.grid(row=1,column=0,columnspan=1)
-
-namebox=Entry(root, font="Arial 20",bg="blue")
-namebox.grid(row=1,column=2)
-
-shiptk=Label(root,text="Ship:", font="Arial 20",bg="blue")
-shiptk.grid(row=2,column=0,columnspan=1)
-
-shipbox=Entry(root, font="Arial 20",bg="blue")
-shipbox.grid(row=2,column=2)
-
-realtk=Label(root,text="Real:", font="Arial 20",bg="blue")
-realtk.grid(row=3,column=0,columnspan=1)
-
-optionString=StringVar(root)
-optionString.set(" ")
-dropdown=OptionMenu(root,optionString," ","True","False")
-dropdown.config(font="Arial 20",width="17",bg="blue")
-dropdown.nametowidget(dropdown.menuname).config(font="Arial 20")
-dropdown.grid(row=3,column=2)
-
-
-save=Button(root,text="SAVE",font="Arial 20 bold",bg="red",command=addNew)
-save.grid(row=4,column=1,columnspan=2)
-
-root.mainloop()
+    cancelbut=Button(root,text="CANCEL",command=cancelcom,font="Arial 20 bold")
+    cancelbut.grid(row=4,column=0,columnspan=3)
+    
+    root.mainloop()
