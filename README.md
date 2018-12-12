@@ -1,1 +1,1 @@
-# PirateDB
+MinecraftDB
