@@ -29,7 +29,7 @@ def sfilter():
     listbox.delete(0,"end")
     for pirate in d:
         if (filt.lower() in d[pirate]["name"].lower() or
-        filt.lower() in d[pirate]["ship"].lower()):
+        filt.lower() in d[pirate]["color"].lower()):
             listbox.insert(END,d[pirate]["name"])
 
 frame3=Frame(window1,bg="brown")
@@ -37,11 +37,11 @@ frame3.grid(row=1,column=0)
 
 def display(pirateId):
     label3.config(text=d[pirateId]["name"],fg="green")
-    shiplab.config(text=d[pirateId]["ship"],fg="green")
-    if d[pirateId]["real"]=="True":
-        reallab.config(text="Real",fg="green")
+    colorlab.config(text=d[pirateId]["color"],fg="green")
+    if d[pirateId]["hostile"]=="True":
+        hostilelab.config(text="Hostile",fg="green")
     else:
-        reallab.config(text="Fake",fg="green")
+        hostilelab.config(text="Friendly",fg="green")
 
 def scrollr():
     index=int(listbox.curselection()[0])
@@ -87,10 +87,10 @@ rightb.grid(row=1,column=2)
 pic=Label(frame3,image=picImg)
 pic.grid(row=1,column=1)
 
-shiplab=Label(frame3,bg="brown",font="Arial 30 bold")
-shiplab.grid(row=2,column=0,columnspan=3)
-reallab=Label(frame3,bg="brown",font="Arial 30 bold")
-reallab.grid(row=3,column=0,columnspan=3)
+colorlab=Label(frame3,bg="brown",font="Arial 30 bold")
+colorlab.grid(row=2,column=0,columnspan=3)
+hostilelab=Label(frame3,bg="brown",font="Arial 30 bold")
+hostilelab.grid(row=3,column=0,columnspan=3)
 
 frame4=Frame(window1)
 frame4.grid(row=1,column=1)
@@ -104,14 +104,22 @@ def select(e):
         if piratename.lower()==d[pirate]["name"].lower():
             display(pirate)
 
+def fillList():
+    global d
+    for item in d:
+        pirate=d[item]
+        listbox.insert(END,pirate["name"])
+    ulistbox(0)
+
 listbox=Listbox(frame4,font="Times 25",bg="brown",fg="green")
 listbox.bind("<<ListboxSelect>>",select)
 listbox.pack()
 fm=firebase_manager.FirebaseManager()
 d=fm.getallpirates()
-for item in d:
-    pirate=d[item]
-    listbox.insert(END,pirate["name"])
+
+fillList()
+    
+
 
 def Listdel():
     index=int(listbox.curselection()[0])
@@ -136,10 +144,20 @@ delbut.pack()
 newbut=Button(frame4,text="NEW MOB",font="Arial 20 bold",command=npirate,bg="green",fg="brown")
 newbut.pack()
 
+def reflist():
+    global d
+    d=fm.getallpirates()
+    listbox.delete(0,END)
+    fillList()
+
+refbut=Button(frame4,text="REFRESH",font="Arial 20 bold",command=reflist,bg="green",fg="brown")
+refbut.pack()
+
 def exit0():
     window1.destroy()
 extbut=Button(frame4,text="QUIT",font="Arial 20 bold",command=exit0,bg="green",fg="brown")
 extbut.pack()
+
 
 
 window1.mainloop()
